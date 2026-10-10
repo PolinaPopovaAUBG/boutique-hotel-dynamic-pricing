@@ -18,5 +18,9 @@ namespace HotelReservationSystem.Models
         public string Role { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        //navigation
+        public Guest? Guest { get; set; }
+        public Staff? Staff { get; set; }
     }
 }
