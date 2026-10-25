@@ -1,0 +1,46 @@
+﻿@model List<(string Name, int Capacity, decimal Price)>
+@{
+	ViewData["Title"] = "Search Results";
+	DateTime checkIn = ViewBag.CheckIn;
+	DateTime checkOut = ViewBag.CheckOut;
+	int nights = ViewBag.Nights;
+}
+
+<h2>Available Rooms</h2>
+
+<p>
+	<strong>Check-in:</strong> @checkIn.ToString("dd MMM yyyy") &nbsp;
+	<strong>Check-out:</strong> @checkOut.ToString("dd MMM yyyy") &nbsp;
+	<strong>Nights:</strong> @nights
+</p>
+
+@if (ViewBag.Error != null)
+{
+	<p style="color: red;">@ViewBag..Error</p>
+}
+else if (Model.Count == 0)
+{
+	<p>No rooms available for these dates.</p>
+}
+else
+{
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Room Type</th>
+            <th>Sleeps</th>
+            <th>Price per night</th>
+            <th></th>
+        </tr>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.Name</td>
+                <td>@r.Capacity</td>
+                <td>@r.Price.ToString("C")</td>
+                <td><button>Book</button></td>
+            </tr>
+        }
+    </table>
+}
+
+<p><a href ="/Search">Search again</a></p>

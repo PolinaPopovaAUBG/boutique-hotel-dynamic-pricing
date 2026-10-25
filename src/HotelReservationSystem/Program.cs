@@ -1,9 +1,18 @@
 using HotelReservationSystem.Services;
+using HotelReservationSystem.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//register the database
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+//register the pricing service
 builder.Services.AddScoped<PricingService>();
 
 var app = builder.Build();

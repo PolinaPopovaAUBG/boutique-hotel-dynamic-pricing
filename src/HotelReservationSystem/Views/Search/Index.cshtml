@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Search Rooms";
+}
+
+<h2>Search Available Rooms</h2>
+
+<form method="get" action="/Search/Results">
+    <div>
+        <label>Check-in date: </label>
+        <input type="date" name="checkIn" required />
+    </div>
+    <div>
+        <label>Check-out date: </label>
+        <input type="date" name="checkOut" required />
+    </div>
+    <div>
+        <label>Number of guests: </label>
+        <input type="number" name="guests" min="1" max="10" value="1" required />
+    </div>
+    <button type="submit">Search</button>
+    
+</form>
