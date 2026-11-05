@@ -15,7 +15,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //register the pricing service
 builder.Services.AddScoped<PricingService>();
 
+
+
+//seed the database if empty
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    DbSeeder.Seed(db);
+}
+
+//configure HTTP request
+if (!app.Environment.IsDevelopment())
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

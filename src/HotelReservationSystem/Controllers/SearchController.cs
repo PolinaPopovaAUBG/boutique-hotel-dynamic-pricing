@@ -40,7 +40,7 @@ namespace HotelReservationSystem.Controllers
                 .Where(rt => rt.Capacity >= guests)
                 .ToList();
 
-            var results = new List<(string Name, int Capacity, decimal Price)>();
+            var results = new List<(int Id, string Name, int Capacity, decimal Price)>();
 
             foreach (var rt in roomTypes)
             {
@@ -71,7 +71,7 @@ namespace HotelReservationSystem.Controllers
                     checkIn,
                     nights);
 
-                results.Add((rt.Name, rt.Capacity, pricePerNight));
+                results.Add((rt.Id, rt.Name, rt.Capacity, pricePerNight));
             }
 
             //pass data to the view

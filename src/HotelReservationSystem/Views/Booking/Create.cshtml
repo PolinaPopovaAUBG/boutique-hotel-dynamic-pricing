@@ -1,0 +1,37 @@
+﻿
+@{
+	ViewData["Title"] = "Confirm Booking";
+	var roomType = ViewBag.RoomType as HotelReservationSystem.Models.RoomType;
+	DateTime checkIn = ViewBag.CheckIn;
+	DateTime checkOut = ViewBag.CheckOut;
+	int nights = ViewBag.Nights;
+	decimal finalPrice = ViewBag.FinalPrice;
+}
+
+@if (roomType == null)
+{
+    <p style="color: red;">No room type selected.</p>
+}
+else
+{
+    <h2>Confirm Your Booking</h2>
+
+    <div style="border: 1px solid #ccc; padding: 15px; width: 400px;">
+        <h3>@roomType.Name</h3>
+        <p><strong>Check-in:</strong> @checkIn.ToString("dd MMM yyyy")</p>
+        <p><strong>Check-out:</strong> @checkOut.ToString("dd MMM yyyy")</p>
+        <p><strong>Nights:</strong> @nights</p>
+        <hr />
+        <p><strong>Price per night:</strong> @finalPrice.ToString("C")</p>
+        <p><strong>Total:</strong> @((finalPrice * nights).ToString("C"))</p>
+        <p style="color: gray; font-size: 0.9em;">
+            Price is locked based on current demand and will not change.
+        </p>
+        <button style="background-color: green; color: white; padding: 10px; width: 100%;">
+            Confirm & Pay (Coming Soon)
+        </button>
+    </div>
+
+    <br />
+    <a href="/Search">Cancel</a>
+}

@@ -1,4 +1,4 @@
-﻿@model List<(string Name, int Capacity, decimal Price)>
+﻿@model List<(int Id, string Name, int Capacity, decimal Price)>
 @{
 	ViewData["Title"] = "Search Results";
 	DateTime checkIn = ViewBag.CheckIn;
@@ -37,7 +37,13 @@ else
                 <td>@r.Name</td>
                 <td>@r.Capacity</td>
                 <td>@r.Price.ToString("C")</td>
-                <td><button>Book</button></td>
+                <td>
+                    <a href="/Booking/Create?roomTypeId=@r.Id&checkIn=@checkIn.ToString("yyyy-MM-dd")&checkOut=@checkOut.ToString("yyyy-MM-dd")"
+                       style="display: inline-block; padding: 5px 15px; background-color: #1B2A4A; color: white; text-decoration: none; border-radius: 3px;">
+                        Book
+                    </a>
+                </td>
+                    
             </tr>
         }
     </table>
