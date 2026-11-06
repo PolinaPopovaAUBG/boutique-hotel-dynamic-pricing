@@ -1,0 +1,26 @@
+﻿@model HotelReservationSystem.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Log In</h2>
+
+<form method="post" asp-action="Login" style="max-width: 400px;">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" style="color: red;"></div>
+
+    <p>
+        <label>Email:</label><br />
+        <input asp-for="Email" type="email" style="width: 100%;" />
+    </p>
+    <p>
+        <label>Password:</label><br />
+        <input asp-for="Password" type="password" style="width: 100%;" />
+    </p>
+    <p>
+        <button type="submit" style="background-color: #1B2A4A; color: white; padding: 8px 20px;">Log In</button>
+    </p>
+
+    <p>No account yet? <a href="/Account/Register">Register</a></p>
+</form>

@@ -23,8 +23,33 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="Search" asp-action="Index">Search</a>
                         </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @{
+                            var userId = Context.Session.GetInt32("UserId");
+                            var userName = Context.Session.GetString("UserName");
+                        }
+                        @if (userId != null)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-dark">Hello, @userName</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

@@ -18,6 +18,7 @@ builder.Services.AddScoped<PricingService>();
 
 
 //seed the database if empty
+builder.Services.AddSession();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -43,6 +44,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 

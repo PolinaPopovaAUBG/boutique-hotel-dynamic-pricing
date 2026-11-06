@@ -1,0 +1,42 @@
+﻿@model HotelReservationSystem.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Create an Account</h2>
+
+<form method="post" asp-action="Register" style="max-width: 400px;">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" style="color: red;"></div>
+
+    <p>
+        <label>Email:</label><br />
+        <input asp-for="Email" type="email" style="width: 100%;" />
+    </p>
+    <p>
+        <label>First Name:</label><br />
+        <input asp-for="FirstName" style="width: 100%;" />
+    </p>
+    <p>
+        <label>Last Name:</label><br />
+        <input asp-for="LastName" style="width: 100%;" />
+    </p>
+    <p>
+        <label>Phone (optional):</label><br />
+        <input asp-for="Phone" style="width: 100%;" />
+    </p>
+    <p>
+        <label>Password:</label><br />
+        <input asp-for="Password" type="password" style="width: 100%;" />
+    </p>
+    <p>
+        <label>Confirm Password:</label><br />
+        <input asp-for="ConfirmPassword" type="password" style="width: 100%;" />
+    </p>
+    <p>
+        <button type="submit" style="background-color: #1B2A4A; color: white; padding: 8px 20px;">Register</button>
+    </p>
+
+    <p>Already have an account? <a href="/Account/Login">Log in</a></p>
+</form>
