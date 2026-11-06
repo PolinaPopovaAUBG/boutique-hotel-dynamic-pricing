@@ -27,9 +27,15 @@ else
         <p style="color: gray; font-size: 0.9em;">
             Price is locked based on current demand and will not change.
         </p>
-        <button style="background-color: green; color: white; padding: 10px; width: 100%;">
-            Confirm & Pay (Coming Soon)
-        </button>
+        <form method="post" asp-controller="Booking" asp-action="Confirm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="roomTypeId" value="@roomType.Id" />
+            <input type="hidden" name="checkIn" value="@checkIn.ToString("yyyy-MM-dd")" />
+            <input type="hidden" name="checkOut" value="@checkOut.ToString("yyyy-MM-dd")" />
+            <button type="submit" style="background-color: green; color: white; padding: 10px; width: 100%; border: none; cursor: pointer;">
+                Confirm & Pay
+            </button>
+        </form>
     </div>
 
     <br />

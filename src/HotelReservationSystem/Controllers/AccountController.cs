@@ -61,6 +61,13 @@ namespace HotelReservationSystem.Controllers
             HttpContext.Session.SetString("Role", user.Role);
             HttpContext.Session.SetString("UserName", guest.FirstName);
 
+            //if there's a saved return url, go there instead of home
+            var returnUrl = HttpContext.Session.GetString("ReturnUrl");
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                HttpContext.Session.Remove("ReturnUrl");
+                return Redirect(returnUrl);
+            }
             return RedirectToAction("Index", "Home");
 
         }
@@ -90,6 +97,18 @@ namespace HotelReservationSystem.Controllers
             //store session data
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Role", user.Role);
+
+            var guest = _db.Guests.FirstOrDefault(g => g.UserId == user.Id);
+            if (guest != null)
+                HttpContext.Session.SetString("UserName", guest.FirstName);
+
+            //check for return url
+            var returnUrl = HttpContext.Session.GetString("ReturnUrl");
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                HttpContext.Session.Remove("ReturnUrl");
+                return Redirect(returnUrl); //takes the guest exactly where they left off
+            }
 
             return RedirectToAction("Index", "Home");
         }

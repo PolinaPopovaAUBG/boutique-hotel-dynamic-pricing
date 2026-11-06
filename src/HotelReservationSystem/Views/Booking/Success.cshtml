@@ -1,0 +1,21 @@
+﻿@model HotelReservationSystem.Models.Booking
+@{
+    ViewData["Title"] = "Booking Confirmed";
+}
+
+<div style="text-align: center; margin-top: 50px;">
+    <h2 style="color: green;">✅ Booking Confirmed</h2>
+    <p style="font-size: 1.1em;">Your reservation has been created and paid for.</p>
+
+    <div style="border: 1px solid #ccc; padding: 20px; max-width: 400px; margin: 30px auto; text-align: left;">
+        <p><strong>Booking ID:</strong> #@Model.Id</p>
+        <p><strong>Check-in:</strong> @Model.CheckIn.ToString("dd MMM yyyy")</p>
+        <p><strong>Check-out:</strong> @Model.CheckOut.ToString("dd MMM yyyy")</p>
+        <p><strong>Total paid:</strong> @Model.FinalPrice.ToString("C")</p>
+        <p><strong>Status:</strong> @Model.Status</p>
+    </div>
+
+    <a href="/Search" style="background-color: #1B2A4A; color: white; padding: 10px 25px; text-decoration: none;">
+        Book Another Room
+    </a>
+</div>
