@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Front Desk Dashboard";
+    var arrivals = ViewBag.Arrivals as List<HotelReservationSystem.Models.Booking>;
+    var inHouse = ViewBag.InHouse as List<HotelReservationSystem.Models.Booking>;
+    var departures = ViewBag.Departures as List<HotelReservationSystem.Models.Booking>;
+}
+
+<h2>Front Desk Dashboard</h2>
+<p>Today's date: <strong>@DateTime.Today.ToString("dd MMM yyyy")</strong></p>
+
+<hr />
+
+<h3>Arrivals (to check in)</h3>
+@if (arrivals == null || arrivals.Count == 0)
+{
+    <p>No arrivals scheduled for today.</p>
+}
+else
+{
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Booking ID</th>
+            <th>Guest</th>
+            <th>Nights</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+        @foreach (var b in arrivals)
+        {
+            <tr>
+                <td>#@b.Id</td>
+                <td>Guest #@b.GuestId</td>
+                <td>@((b.CheckOut - b.CheckIn).Days)</td>
+                <td>@b.FinalPrice.ToString("C")</td>
+                <td><a href="/FrontDesk/CheckIn/@b.Id">Check In</a></td>
+            </tr>
+        }
+    </table>
+}
+
+<hr />
+
+<h3>Currently In-House (Stayovers)</h3>
+@if (inHouse == null || inHouse.Count == 0)
+{
+    <p>No guests are currently checked in.</p>
+}
+else
+{
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Booking ID</th>
+            <th>Guest</th>
+            <th>Room Assigned</th>
+            <th>Check-out Date</th>
+        </tr>
+        @foreach (var b in inHouse)
+        {
+            <tr>
+                <td>#@b.Id</td>
+                <td>Guest #@b.GuestId</td>
+                <td>Room @(b.AssignedRoom?.RoomNumber ?? "None")</td>
+                <td>@b.CheckOut.ToString("dd MMM yyyy")</td>
+            </tr>
+        }
+    </table>
+}
+
+<hr />
+
+<h3>Departures (to check out)</h3>
+@if (departures == null || departures.Count == 0)
+{
+    <p>No departures scheduled for today.</p>
+}
+else
+{
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Booking ID</th>
+            <th>Guest</th>
+            <th>Room</th>
+            <th>Action</th>
+        </tr>
+        @foreach (var b in departures)
+        {
+            <tr>
+                <td>#@b.Id</td>
+                <td>Guest #@b.GuestId</td>
+                <td>Room @(b.AssignedRoom?.RoomNumber ?? "None")</td>
+                <td>
+                    <form method="post" asp-action="CheckOut" asp-route-id="@b.Id" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit">Check Out</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}

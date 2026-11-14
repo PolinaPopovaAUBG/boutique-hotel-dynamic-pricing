@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Assign Room";
+    var booking = ViewBag.Booking as HotelReservationSystem.Models.Booking;
+    var roomTypeName = ViewBag.RoomTypeName as string;
+    var availableRooms = ViewBag.AvailableRooms as List<HotelReservationSystem.Models.Room>;
+}
+
+<h2>Check In — Booking #@booking.Id</h2>
+
+<div style="border: 1px solid #ccc; padding: 15px; max-width: 500px;">
+    <p><strong>Room Type:</strong> @roomTypeName</p>
+    <p><strong>Check-in:</strong> @booking.CheckIn.ToString("dd MMM yyyy")</p>
+    <p><strong>Check-out:</strong> @booking.CheckOut.ToString("dd MMM yyyy")</p>
+    <p><strong>Total Paid:</strong> @booking.FinalPrice.ToString("C")</p>
+
+    @if (availableRooms == null || availableRooms.Count == 0)
+    {
+        <p style="color: red;">No rooms of this type are currently available.</p>
+    }
+    else
+    {
+        <form method="post" asp-action="CheckIn" asp-route-id="@booking.Id">
+            @Html.AntiForgeryToken()
+            <p>
+                <label><strong>Assign a room:</strong></label><br />
+                <select name="selectedRoomId" required>
+                    <option value="">-- Select a room --</option>
+                    @foreach (var r in availableRooms)
+                    {
+                        <option value="@r.Id">Room @r.RoomNumber</option>
+                    }
+                </select>
+            </p>
+            <button type="submit" style="background-color: green; color: white; padding: 8px 20px;">Confirm Check-In</button>
+        </form>
+    }
+</div>
+
+<p><a href="/FrontDesk">Cancel</a></p>

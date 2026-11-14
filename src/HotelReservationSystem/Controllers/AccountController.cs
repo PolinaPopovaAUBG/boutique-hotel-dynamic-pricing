@@ -101,6 +101,12 @@ namespace HotelReservationSystem.Controllers
             var guest = _db.Guests.FirstOrDefault(g => g.UserId == user.Id);
             if (guest != null)
                 HttpContext.Session.SetString("UserName", guest.FirstName);
+            else
+            {
+                var staff = _db.Staff.FirstOrDefault(s => s.UserId == user.Id);
+                if (staff != null)
+                    HttpContext.Session.SetString("UserName", staff.FirstName);
+            }
 
             //check for return url
             var returnUrl = HttpContext.Session.GetString("ReturnUrl");

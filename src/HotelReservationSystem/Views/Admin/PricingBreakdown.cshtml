@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Pricing Breakdown";
+    var roomTypes = ViewBag.RoomTypes as List<HotelReservationSystem.Models.RoomType>;
+}
+
+<h2>Dynamic Pricing Breakdown</h2>
+<p><a href="/Admin">&larr; Back to Dashboard</a></p>
+
+<p>The algorithm calculates the final price using this formula:</p>
+<pre style="background-color: #f4f4f4; padding: 15px; border-radius: 4px;">
+Final Price = Base Price × Occupancy × Lead Time × Season × Length of Stay</pre>
+
+<h3>Base Prices per Room Type</h3>
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Room Type</th>
+        <th>Base Price</th>
+    </tr>
+    @foreach (var rt in roomTypes)
+    {
+        <tr>
+            <td>@rt.Name</td>
+            <td>@rt.BasePrice.ToString("C")</td>
+        </tr>
+    }
+</table>
+
+<h3 style="margin-top: 30px;">Pricing Factors (Current Settings)</h3>
+<p><em>Note: These are currently hardcoded in the PricingService.cs for stability, but this page demonstrates the logic.</em></p>
+
+<h4>1. Occupancy Factor</h4>
+<ul>
+    <li>0% - 50%: <strong>0.85x</strong> (Discount for low demand)</li>
+    <li>51% - 80%: <strong>1.00x</strong> (Normal)</li>
+    <li>81% - 90%: <strong>1.25x</strong> (High demand)</li>
+    <li>91% - 100%: <strong>1.50x</strong> (Peak demand)</li>
+</ul>
+
+<h4>2. Lead Time Factor</h4>
+<ul>
+    <li>60+ days before: <strong>0.90x</strong> (Early bird discount)</li>
+    <li>30 - 59 days: <strong>0.95x</strong></li>
+    <li>7 - 29 days: <strong>1.00x</strong> (Normal)</li>
+    <li>0 - 6 days: <strong>1.20x</strong> (Last minute premium)</li>
+</ul>
+
+<h4>3. Seasonal Factor</h4>
+<ul>
+    <li>High Season (Jul-Aug, Dec 20 - Jan 5): <strong>1.25x</strong></li>
+    <li>Mid Season (May-Jun, Sep-Oct): <strong>1.05x</strong></li>
+    <li>Low Season (Nov-Mar): <strong>0.90x</strong></li>
+</ul>
+
+<h4>4. Length of Stay Factor</h4>
+<ul>
+    <li>1 - 3 nights: <strong>1.00x</strong></li>
+    <li>4 - 6 nights: <strong>0.90x</strong></li>
+    <li>7+ nights: <strong>0.85x</strong> (Long stay discount)</li>
+</ul>
+
+<h4>5. Safety Net</h4>
+<p>The algorithm enforces a minimum floor of <strong>70% of the base price</strong> and a maximum ceiling of <strong>300% of the base price</strong> to prevent extreme fluctuations.</p>

@@ -18,6 +18,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <!-- LEFT SIDE NAVBAR -->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -27,18 +28,33 @@
                         </li>
                     </ul>
 
+                    <!-- RIGHT SIDE NAVBAR (Auth State) -->
                     <ul class="navbar-nav">
                         @{
                             var userId = Context.Session.GetInt32("UserId");
                             var userName = Context.Session.GetString("UserName");
+                            var userRole = Context.Session.GetString("Role");
                         }
                         @if (userId != null)
                         {
+                            @* Show Front Desk button to both Front Desk and Admin *@
+                            @if (userRole == "FrontDesk" || userRole == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="FrontDesk" asp-action="Index">Front Desk</a>
+                                </li>
+                            }
+
+                            @* Show Admin button ONLY to Admin *@
+                            @if (userRole == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
+                                </li>
+                            }
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Booking" asp-action="MyBookings">My Bookings</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>
                             <li class="nav-item">
                                 <span class="nav-link text-dark">Hello, @userName</span>
